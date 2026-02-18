@@ -1,6 +1,6 @@
 const tf = require('@tensorflow/tfjs-node');
 const { generateSample, canvasToTensor, CHARS, generateBatch2, generateSample2 } = require('./util');
-
+const fs = require('fs');
 /**
  * Create CNN model
  */
@@ -119,6 +119,10 @@ async function test(model) {
 
     const { canvas, label } = generateSample();
 
+
+    const buffer = canvas.toBuffer("image/png");
+    fs.writeFileSync("sample.png", buffer);
+
     const input = canvasToTensor(canvas).expandDims(0);
 
     const prediction = model.predict(input);
@@ -152,6 +156,8 @@ async function main() {
 
     console.log("\nTraining complete.");
 }
+
+main()
 // -------------------- Second Model ---------------------
 
 function createModel2() {
@@ -286,4 +292,4 @@ async function main2() {
     console.log("\nDone.");
 }
 
-main2();
+// main2();
