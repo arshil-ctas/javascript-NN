@@ -31,21 +31,25 @@ async function main() {
     }
 
     const imagePath = process.argv[2];
+    console.log('imagePath: ', imagePath);
 
     if (imagePath) {
-        const result = await predict(model, imagePath);
+        const fs = await import('fs');
+        const image = fs.readFileSync(imagePath);
+        console.log('image: ', image);
+        const result = await predict(model, image);
         console.log(`\n🔍 Prediction: "${result}"\n`);
     } else {
         console.log('\n📋 Running 20 synthetic tests...\n');
         let correct = 0;
-        for (let i = 0; i < 20; i++) {
-            const { canvas, word } = generateSample(1, 6);
+        for (let i = 0; i < 100; i++) {
+            const { canvas, word } = generateSample(1, 1);
             const pred = await predict(model, canvas);
             const ok = pred === word;
             if (ok) correct++;
             console.log(`  ${word.padEnd(8)} → ${pred.padEnd(8)} ${ok ? '✓' : '✗'}`);
         }
-        console.log(`\n  Accuracy: ${correct}/20 = ${((correct / 20) * 100).toFixed(1)}%\n`);
+        console.log(`\n  Accuracy: ${correct}/20 = ${((correct / 100) * 100).toFixed(1)}%\n`);
     }
 }
 
