@@ -874,10 +874,10 @@ function runDemo() {
     console.log(`\nVocab size: ${vocab.length} characters`);
 
     // Hyperparameters — SAME for both models
-    const CONTEXT = 4;
-    const EMB_DIM = 12;
+    const CONTEXT = 6;
+    const EMB_DIM = 24;
     const HIDDEN = 128;
-    const EPOCHS = 5000;
+    const EPOCHS = 10000;
 
     // ── SGD MODEL (plain gradient descent) ───────────────────────────────────
     //   Uses the old update rule: param -= lr * grad
@@ -985,7 +985,7 @@ function runDemo() {
     const dataset = sgdModel.buildDataset(text);
     console.log(`Training pairs: ${dataset.length}, Epochs: ${EPOCHS}\n`);
 
-    const LOG_EVERY = 30;
+    const LOG_EVERY = 5;
     console.log(`${'Epoch'.padEnd(8)} ${'SGD Loss'.padEnd(14)} ${'Adam Loss'.padEnd(14)} Winner`);
     console.log('─'.repeat(50));
 
@@ -1009,7 +1009,7 @@ function runDemo() {
 
     // Generate text with the Adam model
     console.log("\n--- Adam model (temp=0.8) ---");
-    const seeds = ['Hel', 'The', 'the', 'A s'];
+    const seeds = ['Hel', 'The', 'the', 'A s', 'orange', 'the w'];
     seeds.forEach(seed => {
         console.log(`  seed="${seed}" → "${adamModel.generate(seed, 155, 0.8)}"`);
     });
